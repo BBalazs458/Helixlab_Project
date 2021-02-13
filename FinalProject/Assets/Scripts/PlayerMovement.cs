@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController _cc;
     private Animator _anim;
 
+    private bool _isCrouch = false;
+
     private void Start()
     {
         _cc = GetComponent<CharacterController>();
@@ -21,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         CalculateMove();
+        Crouch();
     }
 
     void CalculateMove()
@@ -32,9 +35,23 @@ public class PlayerMovement : MonoBehaviour
         movement *= Time.deltaTime;
         transform.TransformDirection(movement);
 
+        _anim.SetFloat("MoveX", hor);
+        _anim.SetFloat("MoveY", ver);
 
         _cc.Move(movement);
     }
 
-
+    void Crouch()
+    {
+        if (Input.GetKeyDown(KeyCode.C) && _isCrouch == false)
+        {
+            _anim.SetBool("Crouch", true);
+            _isCrouch = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.C) && _isCrouch)
+        {
+            _anim.SetBool("Crouch", false);
+            _isCrouch = false;
+        }
+    }
 }
