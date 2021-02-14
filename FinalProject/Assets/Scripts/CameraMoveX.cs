@@ -10,6 +10,7 @@ public class CameraMoveX : MonoBehaviour
     public float lowerLimit = -80f;
     public bool inversLook = true;
 
+
     private Transform _cam;
     private Quaternion _startRotation;
     private float _axisX = 0;
@@ -25,6 +26,8 @@ public class CameraMoveX : MonoBehaviour
     void Update()
     {
         LookXAxis();
+
+        
     }
 
     void LookXAxis()
