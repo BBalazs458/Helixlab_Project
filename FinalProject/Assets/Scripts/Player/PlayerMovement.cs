@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //Mouse input
         float horizontalMouse = Input.GetAxis("Mouse X") * Time.deltaTime * turnSpeed;
-
+        
         //Update rotation
         _axisY += horizontalMouse;
 
