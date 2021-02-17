@@ -14,6 +14,7 @@ public class PlayerShot : MonoBehaviour
 
     Camera _main;
     private bool isMouseLock = true;
+    private bool _isShot = false;
 
     Weapon m4;
     Weapon shotgun;
@@ -55,9 +56,11 @@ public class PlayerShot : MonoBehaviour
 
     void Shot()
     {
+        // Át kell írni nyomva tartásra, és kell delay time 
         if (Input.GetMouseButtonDown(0) && 
             (m4.GetReload == false || shotgun.GetReload == false))
         {
+            _isShot = true;
             Ray ray = _main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -68,7 +71,7 @@ public class PlayerShot : MonoBehaviour
                 if (m4.gameObject.GetComponent<MeshRenderer>().enabled == true)
                 {
                     m4.PlayMuzzleFlash();
-                    m4.PlayeShotSound();
+                    m4.PlayeShotSound(_isShot);
                     m4.DecreaseAmmo();
                     Zombie z = hit.transform.GetComponent<Zombie>();
                     if (z != null)
@@ -81,7 +84,7 @@ public class PlayerShot : MonoBehaviour
                 if (shotgun.gameObject.GetComponent<MeshRenderer>().enabled == true)
                 {
                     shotgun.PlayMuzzleFlash();
-                    shotgun.PlayeShotSound();
+                    shotgun.PlayeShotSound(_isShot);
                     shotgun.DecreaseAmmo();
                     Zombie z = hit.transform.GetComponent<Zombie>();
                     if (z != null)
@@ -95,6 +98,7 @@ public class PlayerShot : MonoBehaviour
                 Destroy(impact, 0.3f);
             }
         }
+        _isShot = false;
     }
 
 

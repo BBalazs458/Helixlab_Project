@@ -59,30 +59,9 @@ public class PlayerMovement : MonoBehaviour
     {
         float hor = Input.GetAxis("Horizontal") * _moveSpeed;
         float ver = Input.GetAxis("Vertical") * _moveSpeed;
-        #region Play footstep sound
-        if (ver != 0 || hor != 0)
-        {
-            _isMoving = true;
-        }
-        else
-        {
-            _isMoving = false;
-        }
-        if (_isMoving && !audioSurce.isPlaying)
-        { 
-            audioSurce.Play(0);
-            if (_isCrouch)
-            { 
-                audioSurce.maxDistance = 3f;
-            }
-            else
-            {
-                audioSurce.maxDistance = 8f;
-            }
-        }
-        if (!_isMoving)
-            audioSurce.Stop();
-        #endregion
+
+        PlayFootstepSound(ver, hor);
+
         Vector3 movement = new Vector3(hor, 0, ver);
         movement = transform.TransformDirection(movement);
         #region Jump Action
@@ -151,4 +130,31 @@ public class PlayerMovement : MonoBehaviour
     {
         get { return _isCrouch;}
     }
+
+    void PlayFootstepSound(float ver, float hor)
+    {
+        if (ver != 0 || hor != 0)
+        {
+            _isMoving = true;
+        }
+        else
+        {
+            _isMoving = false;
+        }
+        if (_isMoving && !audioSurce.isPlaying)
+        {
+            audioSurce.Play(0);
+            if (_isCrouch)
+            {
+                audioSurce.maxDistance = 3f;
+            }
+            else
+            {
+                audioSurce.maxDistance = 8f;
+            }
+        }
+        if (!_isMoving)
+            audioSurce.Stop();
+    }
+
 }

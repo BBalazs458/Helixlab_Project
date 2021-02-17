@@ -11,6 +11,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] int _inventoryAmmo;
     [SerializeField] ParticleSystem _muzzleFlash;
     [SerializeField] AudioSource audioSource;
+    [SerializeField] GameObject ammoType;
 
 
     private Animator _playerAnim;
@@ -18,9 +19,6 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     private int _currentAmmoInClip;
     private bool isReload = false;
-
-    //private WeaponHolder _weaponIndex;
-
 
     void Start()
     {
@@ -49,20 +47,36 @@ public class Weapon : MonoBehaviour
 
     public int GetDamage { get { return _damage; } }
     public bool GetReload { get { return isReload; } }
-    #region Functions
+
+
+    #region Methods
     public void PlayMuzzleFlash() => _muzzleFlash.Play();
 
-    public void PlayeShotSound()
+    public void PlayeShotSound(bool shot)
     {
-        audioSource.Play(0);
+        if (shot && !audioSource.isPlaying)
+        {
+            audioSource.Play(0);
+        }
+        if (!shot)
+        {
+            audioSource.Stop();
+        }
     }
 
     public void DecreaseAmmo()
     {
         _currentAmmoInClip--;
-        if (_currentAmmoInClip <= 0)
+        if (_inventoryAmmo > 0)
         {
-            StartCoroutine(Reloading());
+            if (_currentAmmoInClip <= 0)
+            {
+                StartCoroutine(Reloading());
+            }
+        }
+        else
+        {
+            Debug.Log("Out of ammo!");
         }
     }
 
@@ -75,9 +89,18 @@ public class Weapon : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         _currentAmmoInClip = _ammoCapacityPerClip;
+        _inventoryAmmo -= _ammoCapacityPerClip;
         _playerAnim.SetBool("Reloading", false);
 
         isReload = false;
     }
+
+
+    public void AddAmmoToInventory()
+    {
+
+    }
+
+
     #endregion
 }
