@@ -7,6 +7,7 @@ public class PlayerShot : MonoBehaviour
     [Header("Shot setting")]
     //[SerializeField] float _shotRange = 50f;
     [SerializeField] GameObject impactEffect;
+    [SerializeField] GameObject magazine;
 
     [SerializeField]
     private float _shotRange;
@@ -28,14 +29,13 @@ public class PlayerShot : MonoBehaviour
     {
         _main = GetComponent<Camera>();
 
-        //m4 = GameObject.Find("M4A1").GetComponent<Weapon>();
+        m4 = GameObject.Find("M4A1").GetComponent<Weapon>();
         shotgun = GameObject.Find("Puska").GetComponent<Weapon>();
 
         if (_main == null)
-        {
             throw new System.Exception("Missing is main camera!");
-        }
-        else if (m4 == null)
+
+        if (m4 == null)
         {
             Debug.LogWarning("M4A1 is missing!");
         }
@@ -44,6 +44,7 @@ public class PlayerShot : MonoBehaviour
             Debug.LogWarning("Shotgun is missing!");
         }
     }
+
 
     private void Update()
     {
@@ -54,7 +55,8 @@ public class PlayerShot : MonoBehaviour
 
     void Shot()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && 
+            (m4.GetReload == false || shotgun.GetReload == false))
         {
             Ray ray = _main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -62,30 +64,32 @@ public class PlayerShot : MonoBehaviour
             if (Physics.Raycast(ray, out hit, _shotRange))
             {
                 Debug.Log(hit.collider.gameObject.name);
-
-                //if (m4.enabled == true)
-                //{
-                //    m4.PlayMuzzleFlash();
-                //    m4.PlayeShotSound();
-                //    Zombie z = hit.transform.GetComponent<Zombie>();
-                //    if (z != null)
-                //    {
-                //        z.Damage(m4.GetDamage);
-                //        m4.DecreaseAmmo();
-                //    }
-                //}
-                if (shotgun.enabled == true)
+                #region M4A1 shot
+                if (m4.gameObject.GetComponent<MeshRenderer>().enabled == true)
+                {
+                    m4.PlayMuzzleFlash();
+                    m4.PlayeShotSound();
+                    m4.DecreaseAmmo();
+                    Zombie z = hit.transform.GetComponent<Zombie>();
+                    if (z != null)
+                    {
+                        z.Damage(m4.GetDamage);
+                    }
+                }
+                #endregion
+                #region Shotgun shot
+                if (shotgun.gameObject.GetComponent<MeshRenderer>().enabled == true)
                 {
                     shotgun.PlayMuzzleFlash();
                     shotgun.PlayeShotSound();
+                    shotgun.DecreaseAmmo();
                     Zombie z = hit.transform.GetComponent<Zombie>();
                     if (z != null)
                     {
                         z.Damage(shotgun.GetDamage);
-                        shotgun.DecreaseAmmo();
                     }
                 }
-
+                #endregion
                 //Impact effect 
                 GameObject impact = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
                 Destroy(impact, 0.3f);

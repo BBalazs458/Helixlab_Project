@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-
+    [Header("Weapon settings")]
     [SerializeField] int _damage;
     [SerializeField] int _shotRange;
     [SerializeField] int _ammoCapacityPerClip;
+    [SerializeField] int _inventoryAmmo;
     [SerializeField] ParticleSystem _muzzleFlash;
     [SerializeField] AudioSource audioSource;
 
 
+    private Animator _playerAnim;
 
-    //[SerializeField]
-    //private int _selectedIndex;
+    [SerializeField]
     private int _currentAmmoInClip;
     private bool isReload = false;
 
@@ -26,12 +27,13 @@ public class Weapon : MonoBehaviour
         _currentAmmoInClip = _ammoCapacityPerClip;
 
         audioSource = GetComponent<AudioSource>();
-
-        //_weaponIndex = GameObject.Find("WEAPONHOLDER").GetComponent<WeaponHolder>();
-        //_weaponIndex.selectedWeapon = _selectedIndex;
+        if (audioSource == null)
+            return;
 
         PlayerShot playerShot = FindObjectOfType<PlayerShot>();
         playerShot.ShotRange = _shotRange;
+
+        _playerAnim = GameObject.Find("Player").GetComponent<Animator>();
     }
 
 
@@ -46,7 +48,8 @@ public class Weapon : MonoBehaviour
     }
 
     public int GetDamage { get { return _damage; } }
-
+    public bool GetReload { get { return isReload; } }
+    #region Functions
     public void PlayMuzzleFlash() => _muzzleFlash.Play();
 
     public void PlayeShotSound()
@@ -67,9 +70,14 @@ public class Weapon : MonoBehaviour
     {
         isReload = true;
         Debug.Log("Reloading...");
-        yield return new WaitForSeconds(0.5f);
+        _playerAnim.SetBool("Reloading", true);
+
+        yield return new WaitForSeconds(3f);
+
         _currentAmmoInClip = _ammoCapacityPerClip;
+        _playerAnim.SetBool("Reloading", false);
+
         isReload = false;
     }
-
+    #endregion
 }

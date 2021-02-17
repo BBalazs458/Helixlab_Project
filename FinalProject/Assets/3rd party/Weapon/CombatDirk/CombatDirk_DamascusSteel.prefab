@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 6346279818874408413}
   - component: {fileID: 8051688784987832952}
   - component: {fileID: 5213390473848338098}
+  - component: {fileID: 1064170755265253014}
   m_Layer: 0
   m_Name: CombatDirk_DamascusSteel
-  m_TagString: Untagged
+  m_TagString: knife
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6005923333937108839}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &1064170755265253014
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6005923333937108839}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2291831324861201295, guid: 9926706c9048d2547ac30bc6b3ab311e, type: 3}

@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Mouse horizontal setting")]
     public float turnSpeed = 10f;
+    public AudioSource audioSurce;
+
 
 
     private CharacterController _cc;
@@ -26,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
     private Quaternion _bodyStartRotation;
     private Transform _cam;
 
+    private bool _isMoving;
+
     private void Start()
     {
         _cc = GetComponent<CharacterController>();
@@ -34,6 +38,12 @@ public class PlayerMovement : MonoBehaviour
         _cam = GetComponentInChildren<Camera>().transform;
         _bodyStartRotation = transform.localRotation;
 
+        audioSurce = GetComponent<AudioSource>();
+
+        if (_cc == null)
+            throw new System.Exception("Charachter Controller is missing!");
+        if(_anim == null && _cam == null)
+            throw new System.Exception("Animator component or Main Camera is missing!");
     }
 
 
@@ -49,7 +59,30 @@ public class PlayerMovement : MonoBehaviour
     {
         float hor = Input.GetAxis("Horizontal") * _moveSpeed;
         float ver = Input.GetAxis("Vertical") * _moveSpeed;
-
+        #region Play footstep sound
+        if (ver != 0 || hor != 0)
+        {
+            _isMoving = true;
+        }
+        else
+        {
+            _isMoving = false;
+        }
+        if (_isMoving && !audioSurce.isPlaying)
+        { 
+            audioSurce.Play(0);
+            if (_isCrouch)
+            { 
+                audioSurce.maxDistance = 3f;
+            }
+            else
+            {
+                audioSurce.maxDistance = 8f;
+            }
+        }
+        if (!_isMoving)
+            audioSurce.Stop();
+        #endregion
         Vector3 movement = new Vector3(hor, 0, ver);
         movement = transform.TransformDirection(movement);
         #region Jump Action
