@@ -431,6 +431,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1809669043088010685, guid: 567ce90504074224a97b761fc0af3568,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1913126873620562606, guid: 567ce90504074224a97b761fc0af3568,
         type: 3}
       propertyPath: _painHud
