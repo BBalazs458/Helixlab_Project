@@ -7,14 +7,14 @@ public class PlayerShot : MonoBehaviour
     [Header("Shot setting")]
     //[SerializeField] float _shotRange = 50f;
     [SerializeField] GameObject impactEffect;
-    [SerializeField] GameObject magazine;
+    [SerializeField] Camera _main;
 
     [SerializeField]
     private float _shotRange;
 
-    Camera _main;
     private bool isMouseLock = true;
     private bool _isShot = false;
+    private bool canShot = true;
 
     Weapon m4;
     Weapon shotgun;
@@ -28,7 +28,6 @@ public class PlayerShot : MonoBehaviour
 
     private void Start()
     {
-        _main = GetComponent<Camera>();
 
         m4 = GameObject.Find("M4A1").GetComponent<Weapon>();
         shotgun = GameObject.Find("Puska").GetComponent<Weapon>();
@@ -57,10 +56,9 @@ public class PlayerShot : MonoBehaviour
     void Shot()
     {
         // Át kell írni nyomva tartásra, és kell delay time 
-        if (Input.GetMouseButtonDown(0) && 
-            (m4.GetReload == false || shotgun.GetReload == false))
+        if (Input.GetMouseButtonDown(0) && canShot == true
+            /*(m4.GetReload == false || shotgun.GetReload == false)*/)
         {
-            _isShot = true;
             Ray ray = _main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -98,9 +96,16 @@ public class PlayerShot : MonoBehaviour
                 Destroy(impact, 0.3f);
             }
         }
-        _isShot = false;
     }
 
+    public void StartReload()
+    {
+        canShot = false;
+    }
+    public void EndReload()
+    {
+        canShot = true;
+    }
 
     void LockMouse()
     {

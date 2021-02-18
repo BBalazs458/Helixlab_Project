@@ -12,15 +12,16 @@ public class FirstAid : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
 
-        ps = FindObjectOfType<PlayerStats>();
+        ps = GameObject.Find("Player").GetComponent<PlayerStats>();
         if (ps == null)
             Debug.LogError("Missing PlayerStats on FirstAid!");
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.transform.CompareTag("Player"))
+        if (other.CompareTag("Player") && ps.GetCurrentHP != 100)
         {
+            Debug.Log("Trigger");
             ps.AddHealth(_healing);
             Destroy(this.gameObject);
         }

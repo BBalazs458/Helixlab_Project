@@ -46,11 +46,13 @@ public class WeaponHolder : MonoBehaviour
             {
                 weapon.gameObject.GetComponent<MeshRenderer>().enabled = true;
                 weapon.gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
+
             }
             else
             {
                 weapon.gameObject.GetComponent<MeshRenderer>().enabled = false;
                 weapon.gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
+
             }
             i++;
         }
