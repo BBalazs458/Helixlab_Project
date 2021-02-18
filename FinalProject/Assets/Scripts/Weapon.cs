@@ -10,11 +10,11 @@ public class Weapon : MonoBehaviour
     [SerializeField] int _shotRange;
     [SerializeField] int _ammoCapacityPerClip;
     [SerializeField] int _inventoryAmmo;
+    [SerializeField] AmmoType _weaponAmmoType;
 
     [Header("Components")]
     [SerializeField] ParticleSystem _muzzleFlash;
     [SerializeField] AudioSource audioSource;
-    [SerializeField] GameObject ammoType;
     [SerializeField] GameObject _icon;
     [SerializeField] Text _allAmmoText;
 
@@ -40,6 +40,8 @@ public class Weapon : MonoBehaviour
         _playerAnim = GameObject.Find("Player").GetComponent<Animator>();
 
         _icon.SetActive(false);
+
+        
     }
 
 
@@ -60,6 +62,8 @@ public class Weapon : MonoBehaviour
     public int GetDamage { get { return _damage; } }
     public bool GetReload { get { return isReload; } }
     public GameObject SetIcon { get { return _icon; } set { _icon = value; } }
+    public int GetInventoryAmmo { get { return _inventoryAmmo; } }
+    public int GetCurrentAmmo { get { return _currentAmmoInClip; } }
     #endregion
 
 
@@ -107,12 +111,13 @@ public class Weapon : MonoBehaviour
         if (_inventoryAmmo < _ammoCapacityPerClip)
         {
             _currentAmmoInClip = _inventoryAmmo;
+            _inventoryAmmo -= _currentAmmoInClip;
         }
         else
         {
             _currentAmmoInClip = _ammoCapacityPerClip;
+            _inventoryAmmo -= _ammoCapacityPerClip;
         }
-        _inventoryAmmo -= _ammoCapacityPerClip;
         _allAmmoText.text = _inventoryAmmo.ToString();
         _playerAnim.SetBool("Reloading", false);
 
@@ -120,9 +125,13 @@ public class Weapon : MonoBehaviour
     }
 
 
-    public void AddAmmoToInventory()
+    public void AddAmmoToInventory(int addAmmo)
     {
-
+        Ammo ammo = FindObjectOfType<Ammo>();
+        if (ammo.AmmoType == _weaponAmmoType)
+        {
+            _inventoryAmmo += addAmmo;
+        }
     }
 
 

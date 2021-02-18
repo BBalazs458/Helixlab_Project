@@ -112,7 +112,22 @@ public class PlayerMovement : MonoBehaviour
     {
         //Mouse input
         float horizontalMouse = Input.GetAxis("Mouse X") * Time.deltaTime * turnSpeed;
-        
+
+        //TURNING ANIMATION
+        //if (horizontalMouse < 0)
+        //{
+        //    _anim.SetBool("TurnRight", false);
+        //    _anim.SetBool("TurnLeft", true);
+        //    float newDirectionLeft = horizontalMouse;
+            
+        //    if (newDirectionLeft < horizontalMouse)
+        //    {
+        //        _anim.SetBool("TurnRight", true);
+        //        _anim.SetBool("TurnLeft", false);
+        //    }
+            
+        //}
+
         //Update rotation
         _axisY += horizontalMouse;
 

@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerShot : MonoBehaviour
 {
     [Header("Shot setting")]
-    //[SerializeField] float _shotRange = 50f;
     [SerializeField] GameObject impactEffect;
     [SerializeField] Camera _main;
 
@@ -19,11 +18,7 @@ public class PlayerShot : MonoBehaviour
     Weapon m4;
     Weapon shotgun;
 
-    public float ShotRange
-    {
-        //get { return _shotRange; }
-        set { _shotRange = value; }
-    }
+    public float ShotRange{ set { _shotRange = value; } }
 
 
     private void Start()
@@ -49,18 +44,23 @@ public class PlayerShot : MonoBehaviour
     private void Update()
     {
         LockMouse();
-        Shot();
+        if ((m4.GetInventoryAmmo >= 0 && shotgun.GetInventoryAmmo >= 0) && 
+            (m4.GetCurrentAmmo >= 0 && shotgun.GetCurrentAmmo >= 0))
+        {
+            Shot();
+        }
        
     }
 
     void Shot()
     {
         // Át kell írni nyomva tartásra, és kell delay time 
-        if (Input.GetMouseButtonDown(0) && canShot == true
-            /*(m4.GetReload == false || shotgun.GetReload == false)*/)
+        if (Input.GetMouseButtonDown(0) && canShot == true)
         {
             Ray ray = _main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+
+            _isShot = true;//Need play shot audio
 
             if (Physics.Raycast(ray, out hit, _shotRange))
             {
@@ -93,11 +93,13 @@ public class PlayerShot : MonoBehaviour
                 #endregion
                 //Impact effect 
                 GameObject impact = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-                Destroy(impact, 0.3f);
+                Destroy(impact, 0.5f);
             }
         }
+        _isShot = false;//Need play shot audio
     }
 
+    //TODO: Animation EVENT
     public void StartReload()
     {
         canShot = false;

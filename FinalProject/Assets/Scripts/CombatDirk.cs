@@ -29,10 +29,12 @@ public class CombatDirk : MonoBehaviour
         if (gameObject.GetComponent<MeshRenderer>().enabled == true)
         {
             _icon.SetActive(true);
+            gameObject.GetComponent<MeshCollider>().enabled = true;
         }
         else
         {
             _icon.SetActive(false);
+            gameObject.GetComponent<MeshCollider>().enabled = false;
         }
     }
 }

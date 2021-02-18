@@ -5,13 +5,10 @@ using UnityEngine;
 public class FirstAid : MonoBehaviour
 {
     [SerializeField] int _healing = 10;
-    private Rigidbody _rb;
     private PlayerStats ps;
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
-
         ps = GameObject.Find("Player").GetComponent<PlayerStats>();
         if (ps == null)
             Debug.LogError("Missing PlayerStats on FirstAid!");
