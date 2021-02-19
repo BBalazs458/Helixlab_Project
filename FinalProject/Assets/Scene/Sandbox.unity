@@ -419,7 +419,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 100
+  m_Text: 0
 --- !u!222 &100589607
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -435,6 +435,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1987219165, guid: 567ce90504074224a97b761fc0af3568, type: 3}
+      propertyPath: selectedWeapon
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 492722131993860867, guid: 567ce90504074224a97b761fc0af3568,
         type: 3}
       propertyPath: icon
@@ -447,9 +451,19 @@ PrefabInstance:
       objectReference: {fileID: 40091126}
     - target: {fileID: 492722131993860867, guid: 567ce90504074224a97b761fc0af3568,
         type: 3}
+      propertyPath: _range
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 492722131993860867, guid: 567ce90504074224a97b761fc0af3568,
+        type: 3}
       propertyPath: ammoType
       value: 
       objectReference: {fileID: 919132147706107008}
+    - target: {fileID: 492722131993860867, guid: 567ce90504074224a97b761fc0af3568,
+        type: 3}
+      propertyPath: _fireRate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 492722131993860867, guid: 567ce90504074224a97b761fc0af3568,
         type: 3}
       propertyPath: _shotRange
@@ -1405,6 +1419,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1809669043088010685, guid: 567ce90504074224a97b761fc0af3568,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1913126873620562606, guid: 567ce90504074224a97b761fc0af3568,
         type: 3}
       propertyPath: _painHud
@@ -1427,9 +1446,19 @@ PrefabInstance:
       objectReference: {fileID: 1873815982}
     - target: {fileID: 6582493156193476274, guid: 567ce90504074224a97b761fc0af3568,
         type: 3}
+      propertyPath: _range
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582493156193476274, guid: 567ce90504074224a97b761fc0af3568,
+        type: 3}
       propertyPath: ammoType
       value: 
       objectReference: {fileID: 3535246629464963638}
+    - target: {fileID: 6582493156193476274, guid: 567ce90504074224a97b761fc0af3568,
+        type: 3}
+      propertyPath: _fireRate
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 6582493156193476274, guid: 567ce90504074224a97b761fc0af3568,
         type: 3}
       propertyPath: _shotRange
@@ -1459,6 +1488,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _thisWeaponAllAmmo
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894305315762295750, guid: 567ce90504074224a97b761fc0af3568,
+        type: 3}
+      propertyPath: fireRate
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8143846980033565547, guid: 567ce90504074224a97b761fc0af3568,
         type: 3}
@@ -1811,7 +1845,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 100
+  m_Text: 0
 --- !u!222 &579903739
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4591,7 +4625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f01b0a3ffce8034418968381bc7d1627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 1
+  type: 1
 --- !u!1 &6998200237133204119 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7986745276887118537, guid: d189f1441d7ad014a9d868c361acedae,
@@ -4610,7 +4644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f01b0a3ffce8034418968381bc7d1627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 0
+  type: 0
 --- !u!1001 &7084497203569560208
 PrefabInstance:
   m_ObjectHideFlags: 0

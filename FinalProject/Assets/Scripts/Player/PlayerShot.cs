@@ -8,17 +8,23 @@ public class PlayerShot : MonoBehaviour
     [Header("Shot setting")]
     [SerializeField] GameObject impactEffect;
     [SerializeField] Camera _main;
+    [SerializeField] float fireRate;
 
     [SerializeField]
     private float _shotRange;
 
     private bool _isShot = false;
     private bool canShot = true;
+    private float nextFire = 0.0f;
 
     Weapon m4;
     Weapon shotgun;
 
-    public float ShotRange{ set { _shotRange = value; } }
+    public float ShotRange
+    { 
+        //get { return _shotRange; }
+        set { _shotRange = value; } 
+    }
 
 
     private void Start()
@@ -42,18 +48,33 @@ public class PlayerShot : MonoBehaviour
 
     private void Update()
     {
-        if ((m4.GetInventoryAmmo >= 0 && shotgun.GetInventoryAmmo >= 0) && 
-            (m4.GetCurrentAmmo >= 0 && shotgun.GetCurrentAmmo >= 0))
-        {
-            Shot();
-        }
-       
+         if (Input.GetButtonDown("Fire1") && (canShot == true && Time.time > nextFire))
+         {
+            if (shotgun.gameObject.GetComponent<MeshRenderer>().enabled == true)
+            {
+                _shotRange = 25;
+                nextFire = Time.time + shotgun.GetFireRate;
+                Shot(shotgun);
+            }
+         }
+         else
+         {
+             if (Input.GetButton("Fire1") && (canShot == true && Time.time > nextFire))
+             {
+                if (m4.gameObject.GetComponent<MeshRenderer>().enabled == true)
+                {
+                        _shotRange = 40;
+                        nextFire = Time.time + m4.GetFireRate;
+                        Shot(m4);
+                }
+             }
+
+         }
     }
 
-    void Shot()
+    void Shot(Weapon w)
     {
-        // Át kell írni nyomva tartásra, és kell delay time 
-        if (Input.GetMouseButton(0) && canShot == true)
+        if (w.GetInventoryAmmo >= 0 && w.GetCurrentAmmo >= 0)
         {
             Ray ray = _main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -63,38 +84,36 @@ public class PlayerShot : MonoBehaviour
             if (Physics.Raycast(ray, out hit, _shotRange))
             {
                 Debug.Log(hit.collider.gameObject.name);
-                #region M4A1 shot
-                if (m4.gameObject.GetComponent<MeshRenderer>().enabled == true)
+                #region Shot
+                w.PlayeShotSound(_isShot);
+                w.PlayMuzzleFlash();
+                w.DecreaseAmmo();
+                Zombie z = hit.transform.GetComponent<Zombie>();
+                if (z != null)
                 {
-                    m4.PlayeShotSound(_isShot);
-                    m4.PlayMuzzleFlash();
-                    m4.DecreaseAmmo();
-                    Zombie z = hit.transform.GetComponent<Zombie>();
-                    if (z != null)
-                    {
-                        z.Damage(m4.GetDamage);
-                    }
+                    z.Damage(w.GetDamage);
                 }
                 #endregion
                 #region Shotgun shot
-                if (shotgun.gameObject.GetComponent<MeshRenderer>().enabled == true)
-                {
-                    shotgun.PlayeShotSound(_isShot);
-                    shotgun.PlayMuzzleFlash();
-                    shotgun.DecreaseAmmo();
-                    Zombie z = hit.transform.GetComponent<Zombie>();
-                    if (z != null)
-                    {
-                        z.Damage(shotgun.GetDamage);
-                    }
-                }
+                //if (shotgun.gameObject.GetComponent<MeshRenderer>().enabled == true)
+                //{
+                //    shotgun.PlayeShotSound(_isShot);
+                //    shotgun.PlayMuzzleFlash();
+                //    shotgun.DecreaseAmmo();
+                //    Zombie z = hit.transform.GetComponent<Zombie>();
+                //    if (z != null)
+                //    {
+                //        z.Damage(shotgun.GetDamage);
+                //    }
+                //}
                 #endregion
                 //Impact effect 
                 GameObject impact = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
                 Destroy(impact, 0.5f);
             }
+            _isShot = false;//Need play shot audio
         }
-        _isShot = false;//Need play shot audio
+        
     }
 
     //TODO: Animation EVENT

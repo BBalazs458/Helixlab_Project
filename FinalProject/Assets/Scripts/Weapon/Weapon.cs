@@ -8,8 +8,9 @@ public class Weapon : MonoBehaviour
     [Header("Weapon settings")]
     [SerializeField] int _damage;
     [SerializeField] int _range;
+    [SerializeField] float _fireRate;
     [SerializeField] int _ammoCapacityPerClip;
-    [SerializeField] int _thisWeaponAllAmmo;//--
+    [SerializeField] int _thisWeaponAllAmmo;
     [SerializeField] AmmoType _weaponAmmoType;
 
     [Header("Components")]
@@ -36,6 +37,7 @@ public class Weapon : MonoBehaviour
 
         //TODO: setting the range in PlayerShot script
         _playerShot = GameObject.Find("Player").GetComponent<PlayerShot>();
+        _playerShot.ShotRange = _range;
 
         _playerAnim = GameObject.Find("Player").GetComponent<Animator>();
 
@@ -47,7 +49,11 @@ public class Weapon : MonoBehaviour
 
     void FixedUpdate()
     {
-        _playerShot.ShotRange = _range;
+        if (Input.GetKeyDown(KeyCode.R) && _currentAmmoInClip <= 0)
+        {
+            StartCoroutine(Reloading());
+        }
+
         if (gameObject.GetComponent<MeshRenderer>().enabled == true)
         {
             icon.SetActive(true);
@@ -56,14 +62,13 @@ public class Weapon : MonoBehaviour
         {
             icon.SetActive(false);
         }
-
     }
 
     #region PROPERTY
     public int GetDamage { get { return _damage; } }
-    public AmmoType TypeOfAmmo { get { return _weaponAmmoType; } }
     public int GetCurrentAmmo { get { return _currentAmmoInClip; } }
     public int GetInventoryAmmo { get { return _thisWeaponAllAmmo; } }
+    public float GetFireRate { get { return _fireRate; } }
     #endregion
 
 
@@ -85,12 +90,10 @@ public class Weapon : MonoBehaviour
     public void DecreaseAmmo()
     {
         _currentAmmoInClip--;
-        if (_thisWeaponAllAmmo > 0)
+        if (_thisWeaponAllAmmo > 0 && _currentAmmoInClip <= 0)
         {
-            if (_currentAmmoInClip == 0)
-            {
-                StartCoroutine(Reloading());
-            }
+            _currentAmmoInClip = 0;
+            StartCoroutine(Reloading());
         }
         else
         {
@@ -100,26 +103,25 @@ public class Weapon : MonoBehaviour
 
     IEnumerator Reloading()
     {
-        //isReload = true;
         Debug.Log("Reloading...");
         _playerAnim.SetBool("Reloading", true);
 
         yield return new WaitForSeconds(3f);
+        _currentAmmoInClip = 0;
 
         if (_thisWeaponAllAmmo < _ammoCapacityPerClip)
         {
-            _currentAmmoInClip = _thisWeaponAllAmmo;
+            _currentAmmoInClip += _thisWeaponAllAmmo;
             _thisWeaponAllAmmo -= _currentAmmoInClip;
         }
         else
         {
-            _currentAmmoInClip = _ammoCapacityPerClip;
-            _thisWeaponAllAmmo -= _ammoCapacityPerClip;
+           _currentAmmoInClip += _ammoCapacityPerClip;
+           _thisWeaponAllAmmo -= _ammoCapacityPerClip;
         }
+
         UpdateAmmoCounter(_thisWeaponAllAmmo);
         _playerAnim.SetBool("Reloading", false);
-
-        //isReload = false;
     }
 
 
@@ -129,6 +131,7 @@ public class Weapon : MonoBehaviour
         if (_weaponAmmoType == typeAmmo)
         {
             _thisWeaponAllAmmo += addAmmo;
+            UpdateAmmoCounter(_thisWeaponAllAmmo);
         }
     }
 
