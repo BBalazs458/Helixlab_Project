@@ -6,13 +6,14 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Animator))]
 public class PlayerStats : MonoBehaviour
 {
-    [SerializeField] Slider _healthSlider;
     [SerializeField] int _currentHP;
-    [SerializeField] Image _painHud;
+
 
     private int _maximumHP = 100;
     private bool _gameOver = false;
+
     private Animator _playerAnimator;
+    private UIManager _uiManager;
 
     public bool GameOver { get { return _gameOver; } set { _gameOver = value; } }
     public int GetCurrentHP { get { return _currentHP; } }
@@ -21,8 +22,12 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         _currentHP = _maximumHP;
-        _healthSlider.maxValue = _currentHP;
-        _healthSlider.value = _currentHP;
+
+        _uiManager = FindObjectOfType<UIManager>();
+        if (_uiManager == null) return;
+
+        _uiManager.SetMaximumHealth(_currentHP);
+        _uiManager.UpdateHelathBar(_currentHP);
 
         _playerAnimator = GameObject.Find("Player").GetComponent<Animator>();
         if (_playerAnimator == null)
@@ -44,42 +49,22 @@ public class PlayerStats : MonoBehaviour
             _playerAnimator.SetBool("IsDead", true);
         }
 
-        SetPainHudTransparent(_currentHP);
+        _uiManager.SetPainHudTransparent(_currentHP);
     }
 
     public void TakeDamagePlayer(int dmg)
     {
         _currentHP -= dmg;
+   
+        _uiManager.UpdateHelathBar(_currentHP);
 
-        _healthSlider.value = _currentHP;
         _playerAnimator.SetTrigger("Hit");
     }
 
     public void AddHealth(int addHP)
     {
         _currentHP += addHP;
-        _healthSlider.value = _currentHP;
+        _uiManager.UpdateHelathBar(_currentHP);
     }
-
-    void SetPainHudTransparent(int health)
-    {
-        if (health <= 70 && health > 50)
-        {
-            _painHud.color = new Color(_painHud.color.r, _painHud.color.g, _painHud.color.b, 0.2f);
-        }
-        else if (health <= 50 && health > 20)
-        {
-            _painHud.color = new Color(_painHud.color.r, _painHud.color.g, _painHud.color.b, 0.5f);
-        }
-        else if (health <= 20)
-        {
-            _painHud.color = new Color(_painHud.color.r, _painHud.color.g, _painHud.color.b, 1);
-        }
-        else
-        {
-            _painHud.color = new Color(_painHud.color.r, _painHud.color.g, _painHud.color.b, 0);
-        }
-    }
-
 
 }

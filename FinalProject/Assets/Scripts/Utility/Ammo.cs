@@ -12,13 +12,13 @@ public class Ammo : MonoBehaviour
 {
     private int _ammo;
 
-    private Weapon _w;
-    [SerializeField] AmmoType _type = AmmoType.M4A1;
+    [SerializeField] AmmoType _type;
 
-    public AmmoType AmmoType { get { return _type; } }
+    private Weapon weapon;
 
     private void Start()
     {
+
         switch (_type)
         {
             case AmmoType.M4A1:
@@ -30,18 +30,13 @@ public class Ammo : MonoBehaviour
             default:
                 break;
         }
-        
-
-        _w = FindObjectOfType<Weapon>();
-        if (_w == null)
-            Debug.LogError("Weapon missing!");
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            _w.AddAmmoToInventory(_ammo);
+            
         }
     }
 

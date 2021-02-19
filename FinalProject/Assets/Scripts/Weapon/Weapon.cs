@@ -1,74 +1,74 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI;//--
 
 public class Weapon : MonoBehaviour
 {
     [Header("Weapon settings")]
     [SerializeField] int _damage;
-    [SerializeField] int _shotRange;
+    [SerializeField] int _range;
     [SerializeField] int _ammoCapacityPerClip;
-    [SerializeField] int _inventoryAmmo;
+    [SerializeField] int _thisWeaponAllAmmo;//--
     [SerializeField] AmmoType _weaponAmmoType;
 
     [Header("Components")]
-    [SerializeField] ParticleSystem _muzzleFlash;
+    [SerializeField] ParticleSystem muzzleFlash;
     [SerializeField] AudioSource audioSource;
-    [SerializeField] GameObject _icon;
-    [SerializeField] Text _allAmmoText;
+    [SerializeField] GameObject icon;
+    [SerializeField] Text _ammoCounterText;
 
     private Animator _playerAnim;
+    private PlayerShot _playerShot;
 
     [SerializeField]
     private int _currentAmmoInClip;
-    private bool isReload = false;
 
     void Start()
     {
-        _currentAmmoInClip = _ammoCapacityPerClip;
-        _allAmmoText.text = _inventoryAmmo.ToString();
-
         audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-            return;
+        if (audioSource == null) return;
+
+
+        _currentAmmoInClip = _ammoCapacityPerClip;
+        UpdateAmmoCounter(_thisWeaponAllAmmo);
+
 
         //TODO: setting the range in PlayerShot script
-        PlayerShot playerShot = FindObjectOfType<PlayerShot>();
-        playerShot.ShotRange = _shotRange;
+        _playerShot = GameObject.Find("Player").GetComponent<PlayerShot>();
 
         _playerAnim = GameObject.Find("Player").GetComponent<Animator>();
 
-        _icon.SetActive(false);
+        icon.SetActive(false);
 
         
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
+        _playerShot.ShotRange = _range;
         if (gameObject.GetComponent<MeshRenderer>().enabled == true)
         {
-            _icon.SetActive(true);
+            icon.SetActive(true);
         }
         else
         {
-            _icon.SetActive(false);
+            icon.SetActive(false);
         }
 
     }
 
     #region PROPERTY
     public int GetDamage { get { return _damage; } }
-    public bool GetReload { get { return isReload; } }
-    public GameObject SetIcon { get { return _icon; } set { _icon = value; } }
-    public int GetInventoryAmmo { get { return _inventoryAmmo; } }
+    public AmmoType TypeOfAmmo { get { return _weaponAmmoType; } }
     public int GetCurrentAmmo { get { return _currentAmmoInClip; } }
+    public int GetInventoryAmmo { get { return _thisWeaponAllAmmo; } }
     #endregion
 
 
     #region Methods
-    public void PlayMuzzleFlash() => _muzzleFlash.Play();
+    public void PlayMuzzleFlash() => muzzleFlash.Play();
 
     public void PlayeShotSound(bool shot)
     {
@@ -85,13 +85,11 @@ public class Weapon : MonoBehaviour
     public void DecreaseAmmo()
     {
         _currentAmmoInClip--;
-        if (_inventoryAmmo > 0)
+        if (_thisWeaponAllAmmo > 0)
         {
             if (_currentAmmoInClip == 0)
             {
-                isReload = true;
                 StartCoroutine(Reloading());
-                isReload = false;
             }
         }
         else
@@ -108,32 +106,35 @@ public class Weapon : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        if (_inventoryAmmo < _ammoCapacityPerClip)
+        if (_thisWeaponAllAmmo < _ammoCapacityPerClip)
         {
-            _currentAmmoInClip = _inventoryAmmo;
-            _inventoryAmmo -= _currentAmmoInClip;
+            _currentAmmoInClip = _thisWeaponAllAmmo;
+            _thisWeaponAllAmmo -= _currentAmmoInClip;
         }
         else
         {
             _currentAmmoInClip = _ammoCapacityPerClip;
-            _inventoryAmmo -= _ammoCapacityPerClip;
+            _thisWeaponAllAmmo -= _ammoCapacityPerClip;
         }
-        _allAmmoText.text = _inventoryAmmo.ToString();
+        UpdateAmmoCounter(_thisWeaponAllAmmo);
         _playerAnim.SetBool("Reloading", false);
 
         //isReload = false;
     }
 
 
-    public void AddAmmoToInventory(int addAmmo)
+    public void AddAmmoToInventory(int addAmmo, AmmoType typeAmmo)
     {
-        Ammo ammo = FindObjectOfType<Ammo>();
-        if (ammo.AmmoType == _weaponAmmoType)
+
+        if (_weaponAmmoType == typeAmmo)
         {
-            _inventoryAmmo += addAmmo;
+            _thisWeaponAllAmmo += addAmmo;
         }
     }
 
-
+    void UpdateAmmoCounter(int inventory)
+    {
+        _ammoCounterText.text = inventory.ToString();
+    }
     #endregion
 }

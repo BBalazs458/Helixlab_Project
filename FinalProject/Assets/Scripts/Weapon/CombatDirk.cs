@@ -8,7 +8,6 @@ public class CombatDirk : MonoBehaviour
 
     [SerializeField] GameObject _icon;
 
-    // Start is called before the first frame update
     void Start()
     {
         _playerStabAnim = GameObject.Find("Player").GetComponent<Animator>();
@@ -18,10 +17,9 @@ public class CombatDirk : MonoBehaviour
         _icon.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && gameObject.GetComponent<MeshRenderer>().enabled == true)
         {
             _playerStabAnim.SetTrigger("Stabbing");
         }

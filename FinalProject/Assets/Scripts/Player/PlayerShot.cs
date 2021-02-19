@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Camera))]
 public class PlayerShot : MonoBehaviour
 {
     [Header("Shot setting")]
@@ -11,7 +12,6 @@ public class PlayerShot : MonoBehaviour
     [SerializeField]
     private float _shotRange;
 
-    private bool isMouseLock = true;
     private bool _isShot = false;
     private bool canShot = true;
 
@@ -23,12 +23,11 @@ public class PlayerShot : MonoBehaviour
 
     private void Start()
     {
-
         m4 = GameObject.Find("M4A1").GetComponent<Weapon>();
         shotgun = GameObject.Find("Puska").GetComponent<Weapon>();
 
         if (_main == null)
-            throw new System.Exception("Missing is main camera!");
+            throw new System.Exception("Main camera is missing!");
 
         if (m4 == null)
         {
@@ -43,7 +42,6 @@ public class PlayerShot : MonoBehaviour
 
     private void Update()
     {
-        LockMouse();
         if ((m4.GetInventoryAmmo >= 0 && shotgun.GetInventoryAmmo >= 0) && 
             (m4.GetCurrentAmmo >= 0 && shotgun.GetCurrentAmmo >= 0))
         {
@@ -55,7 +53,7 @@ public class PlayerShot : MonoBehaviour
     void Shot()
     {
         // Át kell írni nyomva tartásra, és kell delay time 
-        if (Input.GetMouseButtonDown(0) && canShot == true)
+        if (Input.GetMouseButton(0) && canShot == true)
         {
             Ray ray = _main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -68,8 +66,8 @@ public class PlayerShot : MonoBehaviour
                 #region M4A1 shot
                 if (m4.gameObject.GetComponent<MeshRenderer>().enabled == true)
                 {
-                    m4.PlayMuzzleFlash();
                     m4.PlayeShotSound(_isShot);
+                    m4.PlayMuzzleFlash();
                     m4.DecreaseAmmo();
                     Zombie z = hit.transform.GetComponent<Zombie>();
                     if (z != null)
@@ -81,8 +79,8 @@ public class PlayerShot : MonoBehaviour
                 #region Shotgun shot
                 if (shotgun.gameObject.GetComponent<MeshRenderer>().enabled == true)
                 {
-                    shotgun.PlayMuzzleFlash();
                     shotgun.PlayeShotSound(_isShot);
+                    shotgun.PlayMuzzleFlash();
                     shotgun.DecreaseAmmo();
                     Zombie z = hit.transform.GetComponent<Zombie>();
                     if (z != null)
@@ -107,22 +105,5 @@ public class PlayerShot : MonoBehaviour
     public void EndReload()
     {
         canShot = true;
-    }
-
-    void LockMouse()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            isMouseLock = !isMouseLock;
-        }
-
-        if (isMouseLock)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
     }
 }

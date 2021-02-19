@@ -18,7 +18,6 @@ public class FirstAid : MonoBehaviour
     {
         if (other.CompareTag("Player") && ps.GetCurrentHP != 100)
         {
-            Debug.Log("Trigger");
             ps.AddHealth(_healing);
             Destroy(this.gameObject);
         }
