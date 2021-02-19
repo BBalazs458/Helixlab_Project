@@ -14,7 +14,7 @@ public class PlayerStats : MonoBehaviour
     private bool _gameOver = false;
     private Animator _playerAnimator;
 
-    public bool GetGameOver { get { return _gameOver; } }
+    public bool GameOver { get { return _gameOver; } set { _gameOver = value; } }
     public int GetCurrentHP { get { return _currentHP; } }
 
     
