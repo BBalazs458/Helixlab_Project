@@ -8,7 +8,7 @@ public class Weapon : MonoBehaviour
     [Header("Weapon settings")]
     [SerializeField] int _damage;
     [SerializeField] int _range;
-    [SerializeField] float _fireRate;
+    [Range(0f,5f),SerializeField] float _fireRate;
     [SerializeField] int _ammoCapacityPerClip;
     [SerializeField] int _thisWeaponAllAmmo;
     [SerializeField] AmmoType _weaponAmmoType;

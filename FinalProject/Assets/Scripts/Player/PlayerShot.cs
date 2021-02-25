@@ -48,28 +48,38 @@ public class PlayerShot : MonoBehaviour
 
     private void Update()
     {
-         if (Input.GetButtonDown("Fire1") && (canShot == true && Time.time > nextFire))
+         if (Input.GetButtonDown("Fire1") && (canShot == true && Time.time > nextFire) && shotgun.gameObject.GetComponent<MeshRenderer>().enabled == true)
          {
-            if (shotgun.gameObject.GetComponent<MeshRenderer>().enabled == true)
-            {
+            _isShot = true;//Need play shot audio
+            shotgun.PlayMuzzleFlash();
+            shotgun.PlayeShotSound(_isShot);
+            //if (shotgun.gameObject.GetComponent<MeshRenderer>().enabled == true)
+            //{
                 _shotRange = 25;
                 nextFire = Time.time + shotgun.GetFireRate;
                 Shot(shotgun);
-            }
+                
+                shotgun.DecreaseAmmo();
+            //}
          }
          else
          {
-             if (Input.GetButton("Fire1") && (canShot == true && Time.time > nextFire))
+             if (Input.GetButton("Fire1") && (canShot == true && Time.time > nextFire) && m4.gameObject.GetComponent<MeshRenderer>().enabled == true)
              {
-                if (m4.gameObject.GetComponent<MeshRenderer>().enabled == true)
-                {
+                _isShot = true;//Need play shot audio
+                m4.PlayMuzzleFlash();
+                m4.PlayeShotSound(_isShot);
+                //if (m4.gameObject.GetComponent<MeshRenderer>().enabled == true)
+                //{
                         _shotRange = 40;
                         nextFire = Time.time + m4.GetFireRate;
                         Shot(m4);
-                }
-             }
 
+                        m4.DecreaseAmmo();
+                //}
+             }
          }
+        _isShot = false;//Need play shot audio
     }
 
     void Shot(Weapon w)
@@ -79,21 +89,17 @@ public class PlayerShot : MonoBehaviour
             Ray ray = _main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            _isShot = true;//Need play shot audio
+            
 
             if (Physics.Raycast(ray, out hit, _shotRange))
             {
                 Debug.Log(hit.collider.gameObject.name);
-                #region Shot
-                w.PlayeShotSound(_isShot);
-                w.PlayMuzzleFlash();
-                w.DecreaseAmmo();
+                
                 Zombie z = hit.transform.GetComponent<Zombie>();
                 if (z != null)
                 {
                     z.Damage(w.GetDamage);
                 }
-                #endregion
                 #region Shotgun shot
                 //if (shotgun.gameObject.GetComponent<MeshRenderer>().enabled == true)
                 //{
@@ -111,7 +117,7 @@ public class PlayerShot : MonoBehaviour
                 GameObject impact = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
                 Destroy(impact, 0.5f);
             }
-            _isShot = false;//Need play shot audio
+            
         }
         
     }
