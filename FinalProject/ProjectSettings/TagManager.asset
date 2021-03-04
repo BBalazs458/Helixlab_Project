@@ -9,6 +9,8 @@ TagManager:
   - heavyZombie
   - target
   - Enviroment
+  - waypoint
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -18,8 +20,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Target
+  - Obstruction
   - 
   - 
   - 
