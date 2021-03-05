@@ -9,14 +9,18 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] List<Transform> zombiesSpawnPoints;
     
     [Header("Player Spawn Settings")]
-    [SerializeField] GameObject player;
-    [SerializeField] List<Transform> playerSpawnPoints;
+    [SerializeField]  GameObject player;
+    [SerializeField]  List<Transform> playerSpawnPoints;
 
     [Header("Ammo and Health Spawn Settings")]
     [SerializeField] GameObject[] ammoAndHP;
     [SerializeField] List<Transform> ammoAndHPSpawnPoints;
 
+    
 
+    private Transform _newSpawnPoint;
+
+    public  Transform GetPlayerSpawnPoint { get { return _newSpawnPoint; } }
 
     private void Awake()
     {
@@ -27,6 +31,7 @@ public class SpawnManager : MonoBehaviour
         if (ammoAndHPSpawnPoints.Count == 0) return;
         if (player == null) return;
 
+        DontDestroyOnLoad(this.gameObject);
     }
 
     private void Start()
@@ -35,9 +40,9 @@ public class SpawnManager : MonoBehaviour
         SpawnEnemy();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-
+        //Debug.Log(_newSpawnPoint);
     }
 
 
@@ -61,9 +66,26 @@ public class SpawnManager : MonoBehaviour
         {
             int randomEnemy = Random.Range(0, zombies.Length);
             Transform pos = zombiesSpawnPoints[i];
-            //Vector3 newPos = new Vector3(pos.position.x + Random.Range(-5,5),0, pos.position.z + Random.Range(-5, 5));
-            GameObject newEnemy = Instantiate(zombies[randomEnemy],pos);
+            Vector3 newPos = new Vector3(pos.position.x + Random.Range(-5, 5), 0, pos.position.z + Random.Range(-5, 5));
+            GameObject newEnemy = Instantiate(zombies[randomEnemy], newPos,Quaternion.identity);
         }
+    }
+
+
+    public void SetPlayerSpawn(int pos)
+    {
+        for (int i = 0; i < playerSpawnPoints.Count; i++)
+        {
+            if (i == pos)
+            {
+                _newSpawnPoint = playerSpawnPoints[pos];
+            }
+        }
+    }
+
+    public void SetNewPlayerPos(Transform playerPos)
+    {
+        player.transform.position = playerPos.position;
     }
 
 }//class

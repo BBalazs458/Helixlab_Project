@@ -11,6 +11,11 @@ public abstract class ZombieAI : MonoBehaviour
 
     public Slider healthBar;
 
+    public AudioSource audioSource;
+    public AudioClip breathClip;
+    public AudioClip attackClip;
+    public AudioClip deathClip;
+
     public int health;
     public float moveSpeed;
     public float runSpeed;
@@ -28,7 +33,9 @@ public abstract class ZombieAI : MonoBehaviour
 
     protected void Start()
     {
+        healthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar").GetComponent<Slider>();
         healthBar.maxValue = health;
+
         animator = GetComponent<Animator>();
         meshAgent = GetComponent<NavMeshAgent>();
         seePlayer = GetComponent<FieldOfView>();

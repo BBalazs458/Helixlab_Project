@@ -10,6 +10,8 @@ public class EnemyHealthSelector : MonoBehaviour
     public GameObject selectedEnemy = null;
     public float maxSelectionDistance = 100f;
 
+    public GameObject fillArea;
+
     private void Awake()
     {
         UpdateselectedObject(null);
@@ -24,12 +26,12 @@ public class EnemyHealthSelector : MonoBehaviour
         if (selectedEnemy != null)
         {
             enemyHealthBar.value = selectedEnemy.GetComponent<ZombieAI>().GetHealth();
-            enemyHealthBar.gameObject.SetActive(true);
+            fillArea.gameObject.SetActive(true);
 
         }
         else
         {
-            enemyHealthBar.gameObject.SetActive(false);
+            fillArea.gameObject.SetActive(false);
         }
     }
 

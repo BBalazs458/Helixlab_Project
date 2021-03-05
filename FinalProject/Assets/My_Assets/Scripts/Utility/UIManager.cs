@@ -12,20 +12,39 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image _painHud;
 
     private PlayerStats _playerStats;
+    private AudioListener _audioListener;
+
+    private SpawnManager _spawnManager;
     //private bool isMouseLock = true;
+    private bool _gameIsPaused = false;
 
     private void Start()
     {
-        _playerStats = FindObjectOfType<PlayerStats>();
-        gameOverScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
+
+        _audioListener = FindObjectOfType<AudioListener>();
+        _playerStats = FindObjectOfType<PlayerStats>();
+        _spawnManager = FindObjectOfType<SpawnManager>();
+
+
+        gameOverScreen.SetActive(false);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            PauseMenu();
+
+            if (_gameIsPaused)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseMenu();
+            }
+
+            
         }
        StartCoroutine(GameOver());
     }
@@ -34,6 +53,7 @@ public class UIManager : MonoBehaviour
     {
         if (_playerStats.GameOver == true)
         {
+            _audioListener.enabled = false;
             yield return new WaitForSeconds(3f);
             Time.timeScale = 0.0f;
             gameOverScreen.SetActive(true);
@@ -49,6 +69,7 @@ public class UIManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //_spawnManager.SetNewPlayerPos(_spawnManager.GetPlayerSpawnPoint);
         Time.timeScale = 1.0f;
         _playerStats.GameOver = false;
     }
@@ -60,6 +81,8 @@ public class UIManager : MonoBehaviour
     public void ResumeGame()
     {
         Time.timeScale = 1.0f;
+        _audioListener.enabled = true;
+        _gameIsPaused = false;
         pauseMenuScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -68,6 +91,8 @@ public class UIManager : MonoBehaviour
     public void PauseMenu()
     {
         Time.timeScale = 0.0f;
+        _audioListener.enabled = false;
+        _gameIsPaused = true;
         pauseMenuScreen.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
     }

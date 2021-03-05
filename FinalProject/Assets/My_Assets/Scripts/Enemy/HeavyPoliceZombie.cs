@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeavyPoliceZombie : ZombieAI
+public class HeavyPoliceZombie : ZombieAI, IEnemyAudioManager
 {
 
     public ActionStates state = ActionStates.Idle;
@@ -29,6 +29,8 @@ public class HeavyPoliceZombie : ZombieAI
         {
 
             case ActionStates.Idle:
+                PlayAudio(breathClip, true);
+
                 meshAgent.speed = 0;
                 animator.SetBool("isWalk", false);
                 animator.SetBool("isDead", false);
@@ -39,22 +41,30 @@ public class HeavyPoliceZombie : ZombieAI
                     state = ActionStates.Walk;
                 }
                 break;
+
             case ActionStates.Walk:
+                PlayAudio(breathClip, true);
                 Walking(TargetDistance(playerRef.PlayerReferenc.transform.position, this.transform.position));
                 break;
+
             case ActionStates.Attack:
+                PlayAudio(attackClip, true);
+
                 meshAgent.SetDestination(playerRef.PlayerReferenc.transform.position);
                 animator.SetBool("isAttack", true);
 
                 if (TargetDistance(playerRef.PlayerReferenc.transform.position, this.transform.position) > attackRange)
                 {
+                    StopAudio(attackClip);
                     state = ActionStates.Walk;
                 }
                 if (playerDead.GameOver)
                 {
+                    StopAudio(attackClip);
                     state = ActionStates.Idle;
                 }
                 break;
+
             default:
                 state = ActionStates.Idle;
                 break;
@@ -74,6 +84,7 @@ public class HeavyPoliceZombie : ZombieAI
 
             if (distance < attackRange)
             {
+                StopAudio(breathClip);
                 state = ActionStates.Attack;
             }
         }
@@ -100,6 +111,9 @@ public class HeavyPoliceZombie : ZombieAI
     {
         if (health <= 0)
         {
+            StopAudio(breathClip);
+            PlayAudio(deathClip, false);
+
             animator.SetBool("isDead", true);
             meshAgent.ResetPath();
             this.GetComponent<CapsuleCollider>().enabled = false;
@@ -123,4 +137,21 @@ public class HeavyPoliceZombie : ZombieAI
         }
     }
 
+    public void PlayAudio(AudioClip clip, bool loop)
+    {
+        if (audioSource.clip == clip) return;
+
+        audioSource.clip = clip;
+        audioSource.loop = loop;
+        audioSource.Play();
+    }
+
+    public void StopAudio(AudioClip clip)
+    {
+        if (audioSource.clip == clip)
+        {
+            audioSource.Stop();
+            audioSource.clip = null;
+        }
+    }
 }//class

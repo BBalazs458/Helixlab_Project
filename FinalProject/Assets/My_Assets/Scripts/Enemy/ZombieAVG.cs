@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieAVG : ZombieAI
+public class ZombieAVG : ZombieAI, IEnemyAudioManager
 {
     public ActionStates states = ActionStates.Idle;
 
@@ -67,6 +67,9 @@ public class ZombieAVG : ZombieAI
                 animator.SetBool("isWalk", false);
                 animator.SetBool("isRun", false);
                 animator.SetBool("isAttack", false);
+
+                PlayAudio(breathClip, true);//
+
                 if (seePlayer.GetSeePlayer)
                 {
                     states = ActionStates.Run;
@@ -76,24 +79,35 @@ public class ZombieAVG : ZombieAI
                     StartCoroutine(WaitAndWalk());
                 }
                 break;
+
             case ActionStates.Walk:
+                PlayAudio(breathClip, true);//
                 Walking();
                 break;
+
             case ActionStates.Run:
+                PlayAudio(breathClip, true);//
                 Run(TargetDistance(playerRef.PlayerReferenc.transform.position, this.transform.position));
                 break;
+
             case ActionStates.Attack:
+                PlayAudio(attackClip, true);//
+
                 meshAgent.SetDestination(playerRef.PlayerReferenc.transform.position);
                 animator.SetBool("isAttack", true);
+
                 if (TargetDistance(playerRef.PlayerReferenc.transform.position, this.transform.position) > attackRange)
                 {
+                    StopAudio(attackClip);//
                     states = ActionStates.Run;
                 }
                 if (playerDead.GameOver == true)
                 {
+                    StopAudio(attackClip);//
                     states = ActionStates.Idle;
                 }
                 break;
+
             default:
                 states = ActionStates.Idle;
                 break;
@@ -110,7 +124,7 @@ public class ZombieAVG : ZombieAI
         {
             //Patrolling between points
             if (Vector3.Distance(wayPoints[currentWP].transform.position,
-                                 this.transform.position) < 1)
+                                 this.transform.position) < 1.5f)
             {
                 currentWP++;
                 if (currentWP >= wayPoints.Length)
@@ -138,6 +152,7 @@ public class ZombieAVG : ZombieAI
         }
         else if (distance < attackRange)
         {
+            StopAudio(breathClip);//
             states = ActionStates.Attack;
         }
     }
@@ -152,10 +167,30 @@ public class ZombieAVG : ZombieAI
     {
         if (health <= 0)
         {
+            StopAudio(breathClip);//
+            PlayAudio(deathClip, false);//
             animator.SetBool("isDead", true);
             meshAgent.ResetPath();
             this.GetComponent<CapsuleCollider>().enabled = false;
             Destroy(gameObject, 10f);
+        }
+    }
+
+    public void PlayAudio(AudioClip clip, bool loop)
+    {
+        if (audioSource.clip == clip) return;
+
+        audioSource.clip = clip;
+        audioSource.loop = loop;
+        audioSource.Play();
+    }
+
+    public void StopAudio(AudioClip clip)
+    {
+        if (audioSource.clip == clip)
+        {
+            audioSource.Stop();
+            audioSource.clip = null;
         }
     }
     #endregion

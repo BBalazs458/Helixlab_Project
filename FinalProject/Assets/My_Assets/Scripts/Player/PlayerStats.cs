@@ -16,7 +16,7 @@ public class PlayerStats : MonoBehaviour
     private UIManager _uiManager;
 
     public bool GameOver { get { return _gameOver; } set { _gameOver = value; } }
-    public int GetCurrentHP { get { return _currentHP; } }
+    public int GetCurrentHP { get { return _currentHP; } set { _currentHP = value; } }
 
     
     void Start()
@@ -48,7 +48,6 @@ public class PlayerStats : MonoBehaviour
             _gameOver = true;
             _playerAnimator.SetBool("IsDead", true);
         }
-
         _uiManager.SetPainHudTransparent(_currentHP);
     }
 

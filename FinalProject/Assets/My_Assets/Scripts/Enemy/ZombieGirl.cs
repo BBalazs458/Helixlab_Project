@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieGirl : ZombieAI
+public class ZombieGirl : ZombieAI, IEnemyAudioManager
 {
     [SerializeField] GameObject[] wayPoints;
     int currentWP;
@@ -54,6 +54,9 @@ public class ZombieGirl : ZombieAI
         {
 
             case ActionStates.Idle:
+
+                PlayAudio(breathClip, true);
+
                 animator.SetBool("isWalk", false);
                 animator.SetBool("isRun", false);
                 animator.SetBool("isAttack", false);
@@ -67,10 +70,16 @@ public class ZombieGirl : ZombieAI
                     StartCoroutine(WaitAndWalk());
                 }
                 break;
+
             case ActionStates.Walk:
+
+                PlayAudio(breathClip, true);
                 Patrol();
                 break;
+
             case ActionStates.Run:
+
+                PlayAudio(breathClip, true);
                 meshAgent.SetDestination(playerRef.PlayerReferenc.transform.position);
                 animator.SetBool("isRun", true);
                 meshAgent.speed = runSpeed;
@@ -80,26 +89,35 @@ public class ZombieGirl : ZombieAI
                 }
                 if (TargetDistance(playerRef.PlayerReferenc.transform.position, this.transform.position) < attackRange)
                 {
+                    StopAudio(breathClip);
                     states = ActionStates.Attack;
                 }
                 break;
+
             case ActionStates.Attack:
+
                 if (TargetDistance(playerRef.PlayerReferenc.transform.position, this.transform.position) > attackRange && seePlayer.GetSeePlayer)
                 {
+                    StopAudio(attackClip);
+                    PlayAudio(breathClip, true);
+
                     meshAgent.SetDestination(playerRef.PlayerReferenc.transform.position);
                     animator.SetBool("isAttack", false);
                     animator.SetBool("isWalk", true);
                 }
                 else
                 {
+                    PlayAudio(attackClip, true);
                     meshAgent.SetDestination(playerRef.PlayerReferenc.transform.position);
                     animator.SetBool("isAttack", true);
                 }
                 if (playerDead.GameOver)
                 {
+                    StopAudio(attackClip);
                     states = ActionStates.Idle;
                 }
                 break;
+
             default:
                 states = ActionStates.Idle;
                 break;
@@ -116,7 +134,7 @@ public class ZombieGirl : ZombieAI
         {
             //Patrolling between points
             if (Vector3.Distance(wayPoints[currentWP].transform.position,
-                                 this.transform.position) < 1)
+                                 this.transform.position) < 1.5f)
             {
                 currentWP++;
                 if (currentWP >= wayPoints.Length)
@@ -141,6 +159,9 @@ public class ZombieGirl : ZombieAI
     {
         if (health <= 0)
         {
+            StopAudio(deathClip);
+            PlayAudio(deathClip, false);
+
             animator.SetBool("isDead", true);
             meshAgent.ResetPath();
             this.GetComponent<CapsuleCollider>().enabled = false;
@@ -152,6 +173,24 @@ public class ZombieGirl : ZombieAI
     {
         health -= dmg;
         animator.SetTrigger("Hit");
+    }
+
+    public void PlayAudio(AudioClip clip, bool loop)
+    {
+        if (audioSource.clip == clip) return;
+
+        audioSource.clip = clip;
+        audioSource.loop = loop;
+        audioSource.Play();
+    }
+
+    public void StopAudio(AudioClip clip)
+    {
+        if (audioSource.clip == clip)
+        {
+            audioSource.Stop();
+            audioSource.clip = null;
+        }
     }
 
     #endregion
