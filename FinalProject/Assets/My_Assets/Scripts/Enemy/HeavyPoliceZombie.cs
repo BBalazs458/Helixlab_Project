@@ -133,7 +133,7 @@ public class HeavyPoliceZombie : ZombieAI
     {
         if (collision.collider.tag == "knife")
         {
-            health = 50;
+            health -= 50;
         }
     }
 }//class

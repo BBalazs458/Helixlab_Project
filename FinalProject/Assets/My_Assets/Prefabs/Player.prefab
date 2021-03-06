@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1549397896}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.07, y: 0.08, z: 1.21}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalPosition: {x: -0.03, y: -0.02, z: 1.21}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 1019579388760347052}
   m_RootOrder: 0
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3783f195e2c8dc84cb1461fbe881e9cb, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.05751419, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.027672768, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -220,6 +220,7 @@ MonoBehaviour:
   enemyHealthBar: {fileID: 0}
   selectedEnemy: {fileID: 0}
   maxSelectionDistance: 100
+  fillArea: {fileID: 0}
 --- !u!1 &1809198570773992937
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,7 +1339,6 @@ MonoBehaviour:
   impactEffect: {fileID: 6587018057963715681, guid: 2b1150fa56c8dca4dbff047d4457b898,
     type: 3}
   _main: {fileID: 1808288235629337233}
-  fireRate: 100
   _shotRange: 0
   canShot: 1
 --- !u!136 &1339621105
@@ -2032,14 +2032,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1810124496063577009}
-  m_LocalRotation: {x: -0.00013405002, y: 0.006603658, z: -0.14274941, w: 0.9897369}
+  m_LocalRotation: {x: -0.00015087218, y: 0.0067362157, z: -0.14781158, w: 0.98899263}
   m_LocalPosition: {x: -0.072587125, y: -0.00019530211, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1804000178912136195}
   m_Father: {fileID: 1803967228012478355}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.097, y: 0.76600003, z: -17}
 --- !u!1 &1810130498255237401
 GameObject:
   m_ObjectHideFlags: 0
@@ -2437,6 +2437,10 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1326122981, guid: 8bb7c3293e690054186bdfb8e1b468e4, type: 3}
+      propertyPath: m_Volume
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1326122981, guid: 8bb7c3293e690054186bdfb8e1b468e4, type: 3}
       propertyPath: MaxDistance
       value: 12
       objectReference: {fileID: 0}
@@ -2444,6 +2448,10 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: e4bf987432d8f0649b1b1cc7c83d836c, type: 3}
+    - target: {fileID: 1326122981, guid: 8bb7c3293e690054186bdfb8e1b468e4, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1898801992038196, guid: 8bb7c3293e690054186bdfb8e1b468e4, type: 3}
       propertyPath: m_Name
       value: Puska
@@ -2566,8 +2574,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387887819765686090, guid: e78157e18a2777941849a092ac1f1a15,
         type: 3}
+      propertyPath: orthographic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387887819765686090, guid: e78157e18a2777941849a092ac1f1a15,
+        type: 3}
       propertyPath: field of view
       value: 95.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387887819765686090, guid: e78157e18a2777941849a092ac1f1a15,
+        type: 3}
+      propertyPath: orthographic size
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4387887819765686091, guid: e78157e18a2777941849a092ac1f1a15,
         type: 3}
@@ -2771,6 +2789,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5804993461778862812, guid: 3b042cd1ea28de343949d904e1d29d8a,
         type: 3}
+      propertyPath: m_Volume
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5804993461778862812, guid: 3b042cd1ea28de343949d904e1d29d8a,
+        type: 3}
       propertyPath: MaxDistance
       value: 10
       objectReference: {fileID: 0}
@@ -2783,6 +2806,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5804993461778862812, guid: 3b042cd1ea28de343949d904e1d29d8a,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4408591135983000247, guid: 3b042cd1ea28de343949d904e1d29d8a, type: 3}
