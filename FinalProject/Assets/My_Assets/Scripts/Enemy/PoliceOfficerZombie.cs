@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoliceOfficerZombie : ZombieAI, IEnemyAudioManager
+public class PoliceOfficerZombie : ZombieAI
 {
     public ActionStates states = ActionStates.Idle;
 
@@ -115,24 +115,6 @@ public class PoliceOfficerZombie : ZombieAI, IEnemyAudioManager
             meshAgent.ResetPath();
             this.GetComponent<CapsuleCollider>().enabled = false;
             Destroy(gameObject, 10f);
-        }
-    }
-
-    public void PlayAudio(AudioClip clip, bool loop)
-    {
-        if (audioSource.clip == clip) return;
-
-        audioSource.clip = clip;
-        audioSource.loop = loop;
-        audioSource.Play();
-    }
-
-    public void StopAudio(AudioClip clip)
-    {
-        if (audioSource.clip == clip)
-        {
-            audioSource.Stop();
-            audioSource.clip = null;
         }
     }
     #endregion

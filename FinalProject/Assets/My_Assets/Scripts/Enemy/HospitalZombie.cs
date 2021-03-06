@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HospitalZombie : ZombieAI,IEnemyAudioManager
+public class HospitalZombie : ZombieAI
 {
     public ActionStates state = ActionStates.Eat;
    [SerializeField] GameObject bitePoint;
@@ -88,24 +88,6 @@ public class HospitalZombie : ZombieAI,IEnemyAudioManager
             meshAgent.ResetPath();
             this.GetComponent<CapsuleCollider>().enabled = false;
             Destroy(gameObject, 10f);
-        }
-    }
-
-    public void PlayAudio(AudioClip clip, bool loop)
-    {
-        if (audioSource.clip == clip) return;
-
-        audioSource.clip = clip;
-        audioSource.loop = loop;
-        audioSource.Play();
-    }
-
-    public void StopAudio(AudioClip clip)
-    {
-        if (audioSource.clip == clip)
-        {
-            audioSource.Stop();
-            audioSource.clip = null;
         }
     }
     #endregion

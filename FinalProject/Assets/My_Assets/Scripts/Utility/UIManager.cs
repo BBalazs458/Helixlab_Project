@@ -14,7 +14,6 @@ public class UIManager : MonoBehaviour
     private PlayerStats _playerStats;
     private AudioListener _audioListener;
 
-    private SpawnManager _spawnManager;
     //private bool isMouseLock = true;
     private bool _gameIsPaused = false;
 
@@ -24,8 +23,6 @@ public class UIManager : MonoBehaviour
 
         _audioListener = FindObjectOfType<AudioListener>();
         _playerStats = FindObjectOfType<PlayerStats>();
-        _spawnManager = FindObjectOfType<SpawnManager>();
-
 
         gameOverScreen.SetActive(false);
     }
@@ -69,7 +66,6 @@ public class UIManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        //_spawnManager.SetNewPlayerPos(_spawnManager.GetPlayerSpawnPoint);
         Time.timeScale = 1.0f;
         _playerStats.GameOver = false;
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieGirl : ZombieAI, IEnemyAudioManager
+public class ZombieGirl : ZombieAI
 {
     [SerializeField] GameObject[] wayPoints;
     int currentWP;
@@ -174,24 +174,5 @@ public class ZombieGirl : ZombieAI, IEnemyAudioManager
         health -= dmg;
         animator.SetTrigger("Hit");
     }
-
-    public void PlayAudio(AudioClip clip, bool loop)
-    {
-        if (audioSource.clip == clip) return;
-
-        audioSource.clip = clip;
-        audioSource.loop = loop;
-        audioSource.Play();
-    }
-
-    public void StopAudio(AudioClip clip)
-    {
-        if (audioSource.clip == clip)
-        {
-            audioSource.Stop();
-            audioSource.clip = null;
-        }
-    }
-
     #endregion
 }//class

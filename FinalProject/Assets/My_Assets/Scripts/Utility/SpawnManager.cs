@@ -7,6 +7,7 @@ public class SpawnManager : MonoBehaviour
     [Header("Enemy Spawn Settings")]
     [SerializeField] GameObject[] zombies = new GameObject[3];
     [SerializeField] List<Transform> zombiesSpawnPoints;
+    public int counterLimit = 2;
     
     [Header("Player Spawn Settings")]
     [SerializeField]  GameObject player;
@@ -16,14 +17,17 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject[] ammoAndHP;
     [SerializeField] List<Transform> ammoAndHPSpawnPoints;
 
-    
+    private Transform _startPosition = null;
+    private static Transform _newSpawnPoint;
 
-    private Transform _newSpawnPoint;
-
-    public  Transform GetPlayerSpawnPoint { get { return _newSpawnPoint; } }
+    public Transform GetPlayerSpawnPoint { get { return _newSpawnPoint; } }
 
     private void Awake()
     {
+        DontDestroyOnLoad(this);
+
+        _startPosition = playerSpawnPoints[0];
+
         if (zombies.Length == 0) return;
         if (zombiesSpawnPoints.Count == 0) return;
         if (playerSpawnPoints.Count == 0) return;
@@ -31,18 +35,28 @@ public class SpawnManager : MonoBehaviour
         if (ammoAndHPSpawnPoints.Count == 0) return;
         if (player == null) return;
 
-        DontDestroyOnLoad(this.gameObject);
     }
 
     private void Start()
     {
         SpawnItems();
-        SpawnEnemy();
+        //SpawnEnemy();
+        StartCoroutine(EnemySpawnSequence(0.5f));
+        if (_newSpawnPoint == null)
+        {
+            player.transform.position = _startPosition.position;
+
+        }
+        else
+        {
+            SetNewPlayerPos(_newSpawnPoint);
+        }
     }
+
 
     private void Update()
     {
-        //Debug.Log(_newSpawnPoint);
+        Debug.Log(_newSpawnPoint);
     }
 
 
@@ -71,9 +85,21 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    IEnumerator EnemySpawnSequence(float time)
+    {
+        int counter = 0;
+        while (counter < counterLimit)
+        {
+            counter++;
+            SpawnEnemy();
+            yield return new WaitForSeconds(time);
+        }
+    }
+
 
     public void SetPlayerSpawn(int pos)
     {
+
         for (int i = 0; i < playerSpawnPoints.Count; i++)
         {
             if (i == pos)

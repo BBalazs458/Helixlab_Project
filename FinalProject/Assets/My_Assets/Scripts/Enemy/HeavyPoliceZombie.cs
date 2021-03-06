@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeavyPoliceZombie : ZombieAI, IEnemyAudioManager
+public class HeavyPoliceZombie : ZombieAI
 {
 
     public ActionStates state = ActionStates.Idle;
@@ -134,24 +134,6 @@ public class HeavyPoliceZombie : ZombieAI, IEnemyAudioManager
         if (collision.collider.tag == "knife")
         {
             health = 50;
-        }
-    }
-
-    public void PlayAudio(AudioClip clip, bool loop)
-    {
-        if (audioSource.clip == clip) return;
-
-        audioSource.clip = clip;
-        audioSource.loop = loop;
-        audioSource.Play();
-    }
-
-    public void StopAudio(AudioClip clip)
-    {
-        if (audioSource.clip == clip)
-        {
-            audioSource.Stop();
-            audioSource.clip = null;
         }
     }
 }//class

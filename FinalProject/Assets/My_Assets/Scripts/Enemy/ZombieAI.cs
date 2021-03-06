@@ -11,10 +11,10 @@ public abstract class ZombieAI : MonoBehaviour
 
     public Slider healthBar;
 
-    public AudioSource audioSource;
-    public AudioClip breathClip;
-    public AudioClip attackClip;
-    public AudioClip deathClip;
+    public  AudioSource audioSource;
+    public  AudioClip breathClip;
+    public  AudioClip attackClip;
+    public  AudioClip deathClip;
 
     public int health;
     public float moveSpeed;
@@ -30,6 +30,7 @@ public abstract class ZombieAI : MonoBehaviour
     protected FieldOfView seePlayer;
     protected FieldOfView playerRef;
     protected PlayerStats playerDead;
+
 
     protected void Start()
     {
@@ -58,4 +59,23 @@ public abstract class ZombieAI : MonoBehaviour
         float distance = Vector3.Distance(target, thisNPC);
         return distance;
     }
+
+    public void PlayAudio(AudioClip clip, bool loop)
+    {
+        if (audioSource.clip == clip) return;
+
+        audioSource.clip = clip;
+        audioSource.loop = loop;
+        audioSource.Play();
+    }
+
+    public void StopAudio(AudioClip clip)
+    {
+        if (audioSource.clip == clip)
+        {
+            audioSource.Stop();
+            audioSource.clip = null;
+        }
+    }
+
 }//class
