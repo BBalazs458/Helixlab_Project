@@ -8,8 +8,12 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] GameObject gameOverScreen;
     [SerializeField] GameObject pauseMenuScreen;
+    [SerializeField] GameObject objectivesScreen;
     [SerializeField] Slider _healthSlider;
     [SerializeField] Image _painHud;
+
+    public GameObject LoadingScreen;
+    public Slider LoadingBar;
 
     private PlayerStats _playerStats;
     private AudioListener _audioListener;
@@ -17,13 +21,16 @@ public class UIManager : MonoBehaviour
     //private bool isMouseLock = true;
     private bool _gameIsPaused = false;
 
-    private void Start()
+    private void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-
         _audioListener = FindObjectOfType<AudioListener>();
         _playerStats = FindObjectOfType<PlayerStats>();
+    }
 
+    private void Start()
+    {
+        Time.timeScale = 0.0f;
+        objectivesScreen.SetActive(true);
         gameOverScreen.SetActive(false);
     }
 
@@ -71,7 +78,8 @@ public class UIManager : MonoBehaviour
     }
     public void LoadMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        //SceneManager.LoadSceneAsync("MainMenu");
+        StartCoroutine(LoadScene("MainMenu"));
     }
 
     public void ResumeGame()
@@ -91,6 +99,13 @@ public class UIManager : MonoBehaviour
         _gameIsPaused = true;
         pauseMenuScreen.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void OkButton()
+    {
+        objectivesScreen.SetActive(false);
+        Time.timeScale = 1.0f;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     //Update health
@@ -123,6 +138,27 @@ public class UIManager : MonoBehaviour
             _painHud.color = new Color(_painHud.color.r, _painHud.color.g, _painHud.color.b, 0);
         }
     }
+
+
+
+
+    IEnumerator LoadScene(string sceneName)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+
+        LoadingScreen.SetActive(true);
+
+        while (!operation.isDone)
+        {
+            float progress = Mathf.Clamp01(operation.progress / 0.9f);
+
+            LoadingBar.value = progress;
+
+            yield return null;//wait the last frame
+        }
+
+    }
+
 
     //void LockMouse()
     //{

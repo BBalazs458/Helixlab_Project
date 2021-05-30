@@ -87,7 +87,7 @@ public class M4 : Gun
                 if (_currentAmmoInClip == 0)
                 {
                     _playerShot.CanShot = false;
-                    Debug.Log(_playerShot.CanShot);
+                    StartCoroutine(Reloading());
                 }
             }
         }

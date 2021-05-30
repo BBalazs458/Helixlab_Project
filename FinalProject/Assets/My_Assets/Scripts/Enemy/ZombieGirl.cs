@@ -65,9 +65,13 @@ public class ZombieGirl : ZombieAI
                 {
                     states = ActionStates.Run;
                 }
-                else
+                else if(wayPoints.Length != 0)
                 {
                     StartCoroutine(WaitAndWalk());
+                }
+                else
+                {
+                    states = ActionStates.Idle;
                 }
                 break;
 

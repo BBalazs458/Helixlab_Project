@@ -8,6 +8,11 @@ public class HospitalZombie : ZombieAI
    [SerializeField] GameObject bitePoint;
 
 
+    private void Awake()
+    {
+        if (bitePoint == null) Debug.LogWarning("Bite point is not set!");
+    }
+
     new void Start()
     {
         base.Start();

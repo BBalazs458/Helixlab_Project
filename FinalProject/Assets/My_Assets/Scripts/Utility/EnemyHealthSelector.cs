@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+//Attatch to the camera
 public class EnemyHealthSelector : MonoBehaviour
 {
     public Slider enemyHealthBar = null;

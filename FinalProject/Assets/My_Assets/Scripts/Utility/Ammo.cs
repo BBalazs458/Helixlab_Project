@@ -17,8 +17,12 @@ public class Ammo : MonoBehaviour
     private Gun _m4;
     private Gun _shotgun;
 
+    Vector3 startpos;
+
     private void Start()
     {
+        startpos = transform.position;
+
         _m4 = GameObject.Find("M4A1").GetComponent<M4>();
         _shotgun = GameObject.Find("Puska").GetComponent<Shotgun>();
 

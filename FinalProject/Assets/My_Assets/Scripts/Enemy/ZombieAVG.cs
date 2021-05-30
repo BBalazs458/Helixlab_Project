@@ -12,8 +12,15 @@ public class ZombieAVG : ZombieAI
     new void Start()
     {
         base.Start();
-        if (wayPoints.Length == 0) return;
-        currentWP = Random.Range(0, wayPoints.Length);
+        if (wayPoints.Length == 0) 
+        { 
+            return; 
+        }
+        else
+        {
+            currentWP = Random.Range(0, wayPoints.Length);
+
+        }
     }
 
 
@@ -74,9 +81,13 @@ public class ZombieAVG : ZombieAI
                 {
                     states = ActionStates.Run;
                 }
-                else
+                else if (wayPoints.Length != 0)
                 {
                     StartCoroutine(WaitAndWalk());
+                }
+                else
+                {
+                    states = ActionStates.Idle;  
                 }
                 break;
 

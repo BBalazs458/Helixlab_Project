@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3858577945053632722}
-  - component: {fileID: 3535246629464963639}
   m_Layer: 0
   m_Name: AssaultAmmo
   m_TagString: Untagged
@@ -33,25 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &3535246629464963639
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4523791737837339240}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b40b399fbeb60e3438b8352f73d61b7f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5583563525587159221
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,6 +110,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -178,8 +159,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.122153424, y: 0.66722924, z: 0.10578789}
-  m_Center: {x: 0.000000046119883, y: 0.33361462, z: -0.000000009524891}
+  m_Size: {x: 0.34860766, y: 0.66722924, z: 0.29848352}
+  m_Center: {x: 0.010594022, y: 0.33361462, z: -0.00176064}
 --- !u!114 &6998200237133204120
 MonoBehaviour:
   m_ObjectHideFlags: 0

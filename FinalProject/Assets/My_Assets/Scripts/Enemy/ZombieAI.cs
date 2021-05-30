@@ -35,6 +35,7 @@ public abstract class ZombieAI : MonoBehaviour
     protected void Start()
     {
         healthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar").GetComponent<Slider>();
+        //Debug.Log(healthBar);
         healthBar.maxValue = health;
 
         animator = GetComponent<Animator>();

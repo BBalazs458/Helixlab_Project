@@ -272,10 +272,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 20
-  _shotRange: 40
+  _range: 0
+  _fireRate: 0
   _ammoCapacityPerClip: 30
-  _muzzleFlash: {fileID: 5279006419863754584}
+  _thisWeaponAllAmmo: 0
+  _weaponAmmoType: 0
+  muzzleFlash: {fileID: 0}
   audioSource: {fileID: 5804993461778862812}
+  icon: {fileID: 0}
+  _ammoCounterText: {fileID: 0}
+  _currentAmmoInClip: 0
 --- !u!1001 &7935143348775881714
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -366,24 +372,33 @@ PrefabInstance:
     - target: {fileID: 2836571276013832426, guid: 22241684697c6c74881ff01ba0ffbc27,
         type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: -5.29013e-19
+      value: -4.3251726e+20
       objectReference: {fileID: 0}
     - target: {fileID: 2836571276013832426, guid: 22241684697c6c74881ff01ba0ffbc27,
         type: 3}
       propertyPath: m_BoundingSphereOverride.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2836571276022865064, guid: 22241684697c6c74881ff01ba0ffbc27,
+        type: 3}
+      propertyPath: LightsModule.ratio
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2836571276022865066, guid: 22241684697c6c74881ff01ba0ffbc27,
+        type: 3}
+      propertyPath: LightsModule.ratio
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2836571276022865070, guid: 22241684697c6c74881ff01ba0ffbc27,
+        type: 3}
+      propertyPath: LightsModule.ratio
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22241684697c6c74881ff01ba0ffbc27, type: 3}
 --- !u!4 &5279006419877909016 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2836571276003465706, guid: 22241684697c6c74881ff01ba0ffbc27,
-    type: 3}
-  m_PrefabInstance: {fileID: 7935143348775881714}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &5279006419863754584 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 2836571276022865066, guid: 22241684697c6c74881ff01ba0ffbc27,
     type: 3}
   m_PrefabInstance: {fileID: 7935143348775881714}
   m_PrefabAsset: {fileID: 0}

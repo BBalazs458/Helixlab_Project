@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [Header("Enemy Spawn Settings")]
-    [SerializeField] GameObject[] zombies = new GameObject[3];
-    [SerializeField] List<Transform> zombiesSpawnPoints;
-    public int counterLimit = 2;
+    //[Header("Enemy Spawn Settings")]
+    //[SerializeField] GameObject[] zombies = new GameObject[3];
+    //[SerializeField] List<Transform> zombiesSpawnPoints;
+    //public int counterLimit = 2;
     
     [Header("Player Spawn Settings")]
     [SerializeField]  GameObject player;
@@ -28,8 +28,8 @@ public class SpawnManager : MonoBehaviour
 
         _startPosition = playerSpawnPoints[0];
 
-        if (zombies.Length == 0) return;
-        if (zombiesSpawnPoints.Count == 0) return;
+        //if (zombies.Length == 0) return;
+        //if (zombiesSpawnPoints.Count == 0) return;
         if (playerSpawnPoints.Count == 0) return;
         if (ammoAndHP.Length == 0) return;
         if (ammoAndHPSpawnPoints.Count == 0) return;
@@ -40,8 +40,8 @@ public class SpawnManager : MonoBehaviour
     private void Start()
     {
         SpawnItems();
-        //SpawnEnemy();
-        StartCoroutine(EnemySpawnSequence(0.5f));
+        ////SpawnEnemy();
+        //StartCoroutine(EnemySpawnSequence(0.5f));
         if (_newSpawnPoint == null)
         {
             player.transform.position = _startPosition.position;
@@ -52,13 +52,6 @@ public class SpawnManager : MonoBehaviour
             SetNewPlayerPos(_newSpawnPoint);
         }
     }
-
-
-    private void Update()
-    {
-        Debug.Log(_newSpawnPoint);
-    }
-
 
     void SpawnItems()
     {
@@ -73,28 +66,28 @@ public class SpawnManager : MonoBehaviour
 
     }
 
-    void SpawnEnemy()
-    {
+    //void SpawnEnemy()
+    //{
 
-        for (int i = 0; i < zombiesSpawnPoints.Count; i++)
-        {
-            int randomEnemy = Random.Range(0, zombies.Length);
-            Transform pos = zombiesSpawnPoints[i];
-            Vector3 newPos = new Vector3(pos.position.x + Random.Range(-5, 5), 0, pos.position.z + Random.Range(-5, 5));
-            GameObject newEnemy = Instantiate(zombies[randomEnemy], newPos,Quaternion.identity);
-        }
-    }
+    //    for (int i = 0; i < zombiesSpawnPoints.Count; i++)
+    //    {
+    //        int randomEnemy = Random.Range(0, zombies.Length);
+    //        Transform pos = zombiesSpawnPoints[i];
+    //        Vector3 newPos = new Vector3(pos.position.x + Random.Range(-5, 5), 0, pos.position.z + Random.Range(-5, 5));
+    //        GameObject newEnemy = Instantiate(zombies[randomEnemy], newPos,Quaternion.identity);
+    //    }
+    //}
 
-    IEnumerator EnemySpawnSequence(float time)
-    {
-        int counter = 0;
-        while (counter < counterLimit)
-        {
-            counter++;
-            SpawnEnemy();
-            yield return new WaitForSeconds(time);
-        }
-    }
+    //IEnumerator EnemySpawnSequence(float time)
+    //{
+    //    int counter = 0;
+    //    while (counter < counterLimit)
+    //    {
+    //        counter++;
+    //        SpawnEnemy();
+    //        yield return new WaitForSeconds(time);
+    //    }
+    //}
 
 
     public void SetPlayerSpawn(int pos)

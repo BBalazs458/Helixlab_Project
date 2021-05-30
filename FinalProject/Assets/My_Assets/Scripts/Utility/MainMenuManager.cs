@@ -10,6 +10,7 @@ public class MainMenuManager : MonoBehaviour
     public string PlayGameScene = "";
     public GameObject CreditsPanel;
     public GameObject LoadingScreen;
+    public GameObject ControlsPanel;
     public Slider LoadingBar;
 
     private void Start()
@@ -19,6 +20,7 @@ public class MainMenuManager : MonoBehaviour
             return;
         }
         CreditsPanel.SetActive(false);
+        ControlsPanel.SetActive(false);
     }
 
     public void PlayGame()
@@ -30,6 +32,10 @@ public class MainMenuManager : MonoBehaviour
     {
         CreditsPanel.SetActive(true);
     }
+    public void Controls()
+    {
+        ControlsPanel.SetActive(true);
+    }
 
     public void ExitGame()
     {
@@ -39,6 +45,10 @@ public class MainMenuManager : MonoBehaviour
     public void BackToMenu()
     {
         CreditsPanel.SetActive(false);
+    }
+    public void Back()
+    {
+        ControlsPanel.SetActive(false);
     }
 
     IEnumerator LoadScene (string sceneName)

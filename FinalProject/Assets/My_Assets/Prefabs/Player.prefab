@@ -130,13 +130,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1808288235629337235}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.09276533, z: -0, w: 0.995688}
   m_LocalPosition: {x: 0.536, y: 1.5, z: -1.579}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1808054424219520645}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 10.645, z: 0}
 --- !u!20 &1808288235629337233
 Camera:
   m_ObjectHideFlags: 0
@@ -161,8 +161,8 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 65
+  far clip plane: 50
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1133,7 +1133,7 @@ GameObject:
   - component: {fileID: 1808288235195922224}
   - component: {fileID: 1107688552}
   - component: {fileID: 6894305315762295750}
-  - component: {fileID: 1339621105}
+  - component: {fileID: 1186448003}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1338,23 +1338,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   impactEffect: {fileID: 6587018057963715681, guid: 2b1150fa56c8dca4dbff047d4457b898,
     type: 3}
+  impactEffect2: {fileID: 1218785350612674288, guid: f7286e1696cd9244282ba97791835a4e,
+    type: 3}
   _main: {fileID: 1808288235629337233}
   _shotRange: 0
   canShot: 1
---- !u!136 &1339621105
-CapsuleCollider:
+--- !u!114 &1186448003
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1809669043088010685}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  m_Radius: 0.3
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.85, z: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2d0e51951784848ae60a2f7d60938b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyHealthBar: {fileID: 0}
+  selectedEnemy: {fileID: 0}
+  maxSelectionDistance: 100
+  fillArea: {fileID: 0}
 --- !u!1 &1809686812813306697
 GameObject:
   m_ObjectHideFlags: 0

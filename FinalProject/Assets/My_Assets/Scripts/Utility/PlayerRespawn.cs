@@ -16,7 +16,7 @@ public class PlayerRespawn : MonoBehaviour
             if (spawnManager == null) return;
 
             spawnManager.SetPlayerSpawn(spawnPointNumber);
-            Debug.Log("Spawn point is set!");
+            //Debug.Log("Spawn point is set!");
             Destroy(this.gameObject);
         }
     }

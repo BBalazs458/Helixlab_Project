@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Camera))]
 public class PlayerShot : MonoBehaviour
 {
     [Header("Shot setting")]
     [SerializeField] GameObject impactEffect;
+    [SerializeField] GameObject impactEffect2;
     [SerializeField] Camera _main;
 
     [SerializeField]
@@ -84,19 +84,21 @@ public class PlayerShot : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, _shotRange))
             {
-                Debug.Log(hit.collider.gameObject.name);
+                //Debug.Log(hit.collider.gameObject.name);
                 
                 ZombieAI z = hit.transform.GetComponent<ZombieAI>();
                 if (z != null)
                 {
                     z.Damage(w.GetDamage);
                     //Blood effect or something else
+                    GameObject impact = Instantiate(impactEffect2, hit.point, Quaternion.LookRotation(hit.normal));
+                    Destroy(impact, 2f);
                 }
                 else
                 {
                     //Impact effect 
                     GameObject impact = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-                    Destroy(impact, 2f);
+                    Destroy(impact, 5f);
                 }
                 #region Shotgun shot
                 //if (shotgun.gameObject.GetComponent<MeshRenderer>().enabled == true)

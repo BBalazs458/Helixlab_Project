@@ -7,8 +7,17 @@ public class FirstAid : MonoBehaviour
     [SerializeField] int _healing = 10;
     private PlayerStats ps;
 
+    Vector3 startPos;
+
+    private void Awake()
+    {
+        startPos = this.transform.position;
+    }
+
     private void Start()
     {
+
+
         ps = GameObject.Find("Player").GetComponent<PlayerStats>();
         if (ps == null)
             Debug.LogError("Missing PlayerStats on FirstAid!");
