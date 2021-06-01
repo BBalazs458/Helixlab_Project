@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public string PlayGameScene = "";
+    //public string PlayGameScene = "";
     public GameObject CreditsPanel;
     public GameObject LoadingScreen;
     public GameObject ControlsPanel;
@@ -25,7 +25,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayGame()
     {
-        StartCoroutine(LoadScene(PlayGameScene));
+        StartCoroutine(LoadScene(1));
     }
 
     public void Credits()
@@ -51,7 +51,7 @@ public class MainMenuManager : MonoBehaviour
         ControlsPanel.SetActive(false);
     }
 
-    IEnumerator LoadScene (string sceneName)
+    IEnumerator LoadScene (int sceneName)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
 
